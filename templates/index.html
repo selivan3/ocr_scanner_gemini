@@ -665,6 +665,11 @@
                 </div>
             </div>
         </div>
+
+        <!-- Clear cache button -->
+        <button class="btn" onclick="clearCache()"
+            style="width: 100%; margin-top: var(--grid-unit); background: transparent; color: var(--text); border: 2px solid var(--text);">🗑
+            очистить кэш</button>
     </div>
 
     <div id="imageModal" class="image-modal" onclick="closeModal()">
@@ -713,6 +718,26 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') closeModal();
         });
+
+        // Очистка кэша
+        function clearCache() {
+            if (!confirm('Удалить все кэшированные результаты?')) return;
+
+            fetch('/clear_cache', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Очищаем локальный кэш
+                        imageCache = { opencv: {}, gemini: {}, text: {} };
+                        alert(`Кэш очищен! Удалено файлов: ${data.cleared}`);
+                        location.reload();
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Ошибка очистки кэша');
+                });
+        }
 
         // Скачивание финального результата
         function downloadResult() {

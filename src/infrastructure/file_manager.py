@@ -128,3 +128,37 @@ class FileManager:
     def file_exists(self, path: str) -> bool:
         """Check if file exists."""
         return os.path.exists(path)
+
+    def calculate_md5(self, filepath: str) -> str:
+        """Calculate MD5 hash of a file."""
+        import hashlib
+        hash_md5 = hashlib.md5()
+        with open(filepath, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+
+    def get_cache_path(self, file_hash: str) -> str:
+        """Get path to cache file based on hash."""
+        return os.path.join(self.processed_folder, f"{file_hash}.json")
+
+    def save_ocr_cache(self, filepath: str, data: dict) -> None:
+        """Save OCR result to cache file."""
+        import json
+        file_hash = self.calculate_md5(filepath)
+        cache_path = self.get_cache_path(file_hash)
+        with open(cache_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+
+    def get_ocr_cache(self, filepath: str) -> Optional[dict]:
+        """Get OCR result from cache if exists."""
+        import json
+        try:
+            file_hash = self.calculate_md5(filepath)
+            cache_path = self.get_cache_path(file_hash)
+            if os.path.exists(cache_path):
+                with open(cache_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            print(f"Cache read error: {e}")
+        return None

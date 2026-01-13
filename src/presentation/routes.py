@@ -24,6 +24,7 @@ def create_main_blueprint(file_manager: "FileManager") -> Blueprint:
     - GET / : Index page
     - GET /sample_images : List sample images
     - GET /sample_images_serve/<filename> : Serve sample image
+    - POST /clear_cache : Clear all cached results
     """
     bp = Blueprint('main', __name__)
     
@@ -42,6 +43,31 @@ def create_main_blueprint(file_manager: "FileManager") -> Blueprint:
     def serve_sample_image(filename):
         """Serve a sample image file."""
         return send_from_directory(file_manager.sample_folder, filename)
+    
+    @bp.route('/clear_cache', methods=['POST'])
+    def clear_cache():
+        """Clear all cached processing results."""
+        import shutil
+        import os
+        
+        cache_dirs = ['static/processed', 'static/uploads']
+        cleared = 0
+        
+        for cache_dir in cache_dirs:
+            if os.path.exists(cache_dir):
+                for item in os.listdir(cache_dir):
+                    item_path = os.path.join(cache_dir, item)
+                    try:
+                        if os.path.isfile(item_path):
+                            os.unlink(item_path)
+                            cleared += 1
+                        elif os.path.isdir(item_path):
+                            shutil.rmtree(item_path)
+                            cleared += 1
+                    except Exception:
+                        pass
+        
+        return jsonify({'success': True, 'cleared': cleared})
     
     return bp
 

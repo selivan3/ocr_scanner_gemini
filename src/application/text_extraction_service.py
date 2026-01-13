@@ -50,8 +50,24 @@ class TextExtractionService:
         if not self._file_manager.file_exists(actual_path):
             return None
         
+        # Check cache first
+        cached_data = self._file_manager.get_ocr_cache(actual_path)
+        if cached_data:
+            return TextExtractionResult(
+                ascii_diagram=cached_data.get('ascii_diagram', ''),
+                markdown_text=cached_data.get('markdown_text', ''),
+                description=cached_data.get('description', ''),
+                seo_keywords=cached_data.get('seo_keywords', '')
+            )
+        
         # Delegate to extractor
-        return self._extractor.extract(actual_path)
+        result = self._extractor.extract(actual_path)
+        
+        # Save to cache if successful
+        if result:
+            self._file_manager.save_ocr_cache(actual_path, result.to_dict())
+            
+        return result
     
     @property
     def extractor_name(self) -> str:
