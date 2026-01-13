@@ -46,7 +46,7 @@
         h1 {
             font-size: 48px;
             line-height: 1.0;
-            margin-bottom: calc(var(--grid-unit) * 2);
+            margin-bottom: 0;
         }
 
         h2 {
@@ -469,6 +469,18 @@
             font-weight: 700;
         }
 
+        .github-link {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            border-bottom: 2px solid var(--text);
+        }
+
+        .github-link:hover {
+            opacity: 0.7;
+        }
+
         .flowchart-container {
             background: var(--text);
             padding: var(--grid-unit);
@@ -503,7 +515,11 @@
 <body>
 
     <div class="header">
-        <h1>document<br>scanner + ocr</h1>
+        <div class="title-block">
+            <h1>document<br>scanner + ocr</h1>
+            <a href="https://github.com/selivan3/ocr_scanner_gemini" target="_blank"
+                class="github-link">github.com/selivan3/ocr_scanner_gemini</a>
+        </div>
         <div class="author-block">
             <div class="name">Селиванов Иван</div>
             <div class="group">ПИ-51 КубГУ</div>
