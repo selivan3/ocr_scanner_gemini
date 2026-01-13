@@ -151,6 +151,12 @@
             margin-bottom: var(--grid-unit);
         }
 
+        .step-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         .step-image-container {
             width: 100%;
             min-height: 120px;
@@ -542,7 +548,10 @@
                 </div>
 
                 <div class="step-card">
-                    <h3>3. финальный результат</h3>
+                    <h3 class="step-header">
+                        <span>3. финальный результат</span>
+                        <button class="copy-btn" onclick="downloadResult()">скачать</button>
+                    </h3>
                     <div class="step-image-container">
                         <div class="loading-spinner" id="loader3"></div>
                         <img id="imgStep3" src="" alt="Scanned" onclick="openModal(this, 'финальный результат')">
@@ -688,6 +697,22 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') closeModal();
         });
+
+        // Скачивание финального результата
+        function downloadResult() {
+            const img = document.getElementById('imgStep3');
+            if (!img.src || img.src === window.location.href) {
+                alert('нет изображения для скачивания');
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'scanned_document.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         function switchTab(tabName) {
             currentTab = tabName;
