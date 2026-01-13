@@ -30,6 +30,8 @@
             line-height: 1.1;
             min-height: 100vh;
             padding: calc(var(--grid-unit) * 2);
+            max-width: 100vw;
+            overflow-x: hidden;
         }
 
         h1,
@@ -60,9 +62,11 @@
 
         .container {
             max-width: 1400px;
+            width: 100%;
             display: grid;
             grid-template-columns: 1fr;
             gap: calc(var(--grid-unit) * 2);
+            overflow: hidden;
         }
 
         .upload-section {
@@ -121,18 +125,24 @@
             display: flex;
             flex-direction: column;
             gap: calc(var(--grid-unit) * 2);
+            max-width: 100%;
+            min-width: 0;
         }
 
         .steps-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--grid-unit);
+            max-width: 100%;
+            overflow: hidden;
         }
 
         .step-card {
             border: 2px solid var(--text);
             padding: var(--grid-unit);
             text-align: left;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .step-card h3 {
@@ -188,6 +198,8 @@
         .text-section {
             border: 2px solid var(--text);
             padding: calc(var(--grid-unit) * 1.5);
+            min-width: 0;
+            overflow: hidden;
         }
 
         .text-section h2 {
@@ -202,11 +214,11 @@
             background: var(--text);
             color: var(--bg);
             padding: var(--grid-unit);
-            min-height: 150px;
-            max-height: 350px;
-            overflow-y: auto;
+            min-height: 100px;
             font-size: 13px;
             line-height: 1.3;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
 
         .text-content.loading {
@@ -293,11 +305,12 @@
             background: var(--bg);
             color: var(--text);
             padding: var(--grid-unit);
-            overflow-x: auto;
             font-family: 'JetBrains Mono', monospace;
             font-size: 11px;
             line-height: 1.2;
-            white-space: pre;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-width: 100%;
         }
 
         .btn {
@@ -424,12 +437,72 @@
             opacity: 0.7;
             text-align: left;
         }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: calc(var(--grid-unit) * 2);
+        }
+
+        .author-block {
+            border: 2px solid var(--text);
+            padding: calc(var(--grid-unit) * 0.75);
+            text-align: right;
+            font-size: 36px;
+            line-height: 1.2;
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .author-block .name {
+            font-weight: 800;
+        }
+
+        .author-block .group {
+            font-weight: 700;
+        }
+
+        .flowchart-container {
+            background: var(--text);
+            padding: var(--grid-unit);
+            min-height: 150px;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .flow-step {
+            background: var(--bg);
+            color: var(--text);
+            padding: 8px 16px;
+            font-weight: 700;
+            font-size: 12px;
+            text-align: center;
+            border: 2px solid var(--bg);
+        }
+
+        .flow-arrow {
+            color: var(--bg);
+            font-size: 16px;
+            font-weight: 800;
+        }
     </style>
 </head>
 
 <body>
 
-    <h1>document<br>scanner + ocr</h1>
+    <div class="header">
+        <h1>document<br>scanner + ocr</h1>
+        <div class="author-block">
+            <div class="name">Селиванов Иван</div>
+            <div class="group">ПИ-51 КубГУ</div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="upload-section" onclick="document.getElementById('fileInput').click()">
@@ -476,12 +549,30 @@
                     </div>
                 </div>
 
-                <div class="step-card">
-                    <h3>4. все этапы обработки</h3>
-                    <div class="step-image-container" style="min-height: 150px; max-height: 400px;">
+                <div class="step-card" id="step4Card">
+                    <h3>4. алгоритм gemini</h3>
+                    <div class="step-image-container" id="step4ImageContainer"
+                        style="min-height: 150px; max-height: 400px; display: none;">
                         <div class="loading-spinner" id="loaderGrid"></div>
                         <img id="imgAllStages" src="" alt="All Stages Grid"
                             onclick="openModal(this, 'все этапы обработки')">
+                    </div>
+                    <div class="flowchart-container" id="step4Flowchart">
+                        <div class="flowchart">
+                            <div class="flow-step">📷 фото</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">🍌 nanobanana pro</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">📍 углы документа</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">📐 перспектива</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">📄 скан</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">🤖 gemini 3 flash</div>
+                            <div class="flow-arrow">↓</div>
+                            <div class="flow-step">📝 ocr + описание</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -608,6 +699,21 @@
             // Переключаем секции OCR
             document.getElementById('geminiSection').style.display = tabName === 'gemini' ? 'block' : 'none';
             document.getElementById('opencvSection').style.display = tabName === 'opencv' ? 'block' : 'none';
+
+            // Переключаем блок 4: flowchart для Gemini, изображение для OpenCV
+            const step4ImageContainer = document.getElementById('step4ImageContainer');
+            const step4Flowchart = document.getElementById('step4Flowchart');
+            const step4Card = document.getElementById('step4Card');
+
+            if (tabName === 'gemini') {
+                step4ImageContainer.style.display = 'none';
+                step4Flowchart.style.display = 'block';
+                step4Card.querySelector('h3').textContent = '4. алгоритм gemini';
+            } else {
+                step4ImageContainer.style.display = 'flex';
+                step4Flowchart.style.display = 'none';
+                step4Card.querySelector('h3').textContent = '4. все этапы обработки';
+            }
 
             // Если нет изображения — ничего не делаем
             if (!originalImagePath) return;
