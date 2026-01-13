@@ -51,7 +51,7 @@ python app.py
 
 | Режим | Детекция углов | OCR |
 |-------|---------------|-----|
-| **Gemini + Nanobanana** | AI (Nanobanana Pro) | Gemini 3 Flash |
+| **Gemini + Nanobanana** | AI (Nanobanana Pro) | Gemini 3 Pro |
 | **OpenCV (classic)** | Алгоритмы OpenCV | ❌ нет |
 
 ---

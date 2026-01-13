@@ -79,7 +79,7 @@ class GeminiTextExtractor(ITextExtractor):
         try:
             client = self._get_client()
             response = client.models.generate_content(
-                model="gemini-3-flash-preview",
+                model="gemini-3-pro-preview",
                 contents=[
                     prompt,
                     types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
@@ -113,7 +113,7 @@ class GeminiTextExtractor(ITextExtractor):
         try:
             client = self._get_client()
             response = client.models.generate_content(
-                model="gemini-3-flash-preview",
+                model="gemini-3-pro-preview",
                 contents=[
                     prompt,
                     types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
@@ -147,7 +147,7 @@ class GeminiTextExtractor(ITextExtractor):
         try:
             client = self._get_client()
             response = client.models.generate_content(
-                model="gemini-3-flash-preview",
+                model="gemini-3-pro-preview",
                 contents=[
                     prompt,
                     types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),
@@ -181,7 +181,7 @@ class GeminiTextExtractor(ITextExtractor):
         try:
             client = self._get_client()
             response = client.models.generate_content(
-                model="gemini-3-flash-preview",
+                model="gemini-3-pro-preview",
                 contents=[
                     prompt,
                     types.Part.from_bytes(data=image_bytes, mime_type="image/jpeg"),

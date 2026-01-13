@@ -7,7 +7,7 @@
 - **Flask 3.1** — веб-фреймворк
 
 ## AI/ML
-- **Google Gemini 3 Flash** (`gemini-3-flash-preview`) — облачный OCR и детекция углов
+- **Google Gemini 3 Pro** (`gemini-3-pro-preview`) — облачный OCR и детекция углов
 
 ## Computer Vision
 - **OpenCV 4.12** — классическая обработка изображений
